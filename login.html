@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Login - SmartFinance</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div><strong>Smart</strong>Finance</div>
+    <div class="right-nav">
+      <div class="nav-buttons">
+        <button onclick="location.href='main.html'">Home</button>
+        <button onclick="location.href='spending.html'">Spending</button>
+        <button onclick="location.href='Calculator.html'">Calculators</button>
+        <button onclick="location.href='budget.html'">Budget Tools</button>
+      </div>
+      <button class="login">Login / Sign Up</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="middle">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="login-username">Username:</label>
+        <input type="text" id="login-username" required />
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" required />
+        <button type="button" id="submit-login">Login</button>
+      </form>
+      <div id="login-result" class="result"></div>
+      <p>No account? <a href="register.html">Register here</a></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('submit-login').addEventListener('click', async () => {
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+      if (!username || !password) {
+        alert('Please fill in both fields');
+        return;
+      }
+      const res = await fetch('/api/login', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        window.location.href = 'spending.html';
+      } else {
+        document.getElementById('login-result').textContent = data.error;
+      }
+    });
+  </script>
+</body>
+</html>

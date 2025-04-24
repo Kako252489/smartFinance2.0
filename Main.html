@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartFinance</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f8;
+      color: #000;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .right-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: flex-start;
+      flex-grow: 1;
+    }
+
+    .nav-buttons button {
+      margin: 0 10px;
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      padding: 10px 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #e9ecf1;
+    }
+
+    .login {
+      background-color: #000;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: 30px;
+      padding: 40px;
+      align-items: stretch;
+      height: 650px;
+      overflow: hidden;
+    }
+
+    .left, .middle, .right {
+      background-color: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .left h2 {
+      font-size: 28px;
+      line-height: 1.4;
+    }
+
+    .left p {
+      font-size: 18px;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    .left {
+      display: flex;
+      flex-direction: column;
+    }
+    .middle {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .left img {
+      width: 100%;
+      max-height: 330px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin-top: auto;
+    }
+    .middle img {
+      width: 100%;
+      height: 430px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .middle input {
+      padding: 10px;
+      width: 80%;
+      margin: 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+
+    .middle button {
+      padding: 10px 20px;
+      background-color: #000;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .right .section {
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .right .section h3 {
+      margin-bottom: 10px;
+    }
+
+    .right .section p {
+      font-size: 16px;
+      color: #444;
+      line-height: 1.6;
+    }
+    .result-metric {
+      margin: 8px 0;
+      font-size: 16px;
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    /* Metric colors */
+    #remaining-balance {
+      color: var(--primary-color);
+    }
+    #total-earning {
+      color: green;
+    }
+    #total-spending {
+      color: red;
+    }
+
+    /* Center Report title and list text */
+    .right .section > h2 {
+      text-align: center;
+    }
+    #spending-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #spending-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div><strong>Smart</strong>Finance</div>
+    <div class="right-nav">
+      <div class="nav-buttons">
+        <button onclick="location.href='main.html'">Home</button>
+        <button onclick="location.href='spending.html'">Spending</button>
+        <button class="active" onclick="location.href='Calculator.html'">Calculators</button>
+        <button onclick="location.href='budget.html'">Budget Tools</button>
+      </div>
+      <button class="login">Login / Sign Up</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="left">
+      <h2>Start your saving plan today</h2>
+      <p>With <strong style="color:#3f70ff">SmartFinance</strong><br>Complete Free<br>Ad Free<br>With all you need</p>
+      <img src="pexels.jpg" alt="Balance Art">
+    </div>
+
+    <div class="middle">
+      <img src="main.png" alt="Blue Swirl Design">
+      <input type="email" placeholder="Type your email to register">
+      <button>Get Started</button>
+      <p><strong>Version 1.1 Update</strong><br>Check our new update info blah blah...</p>
+    </div>
+
+    <div class="right">
+      <div class="section">
+        <div class="metrics-box">
+          <div id="remaining-balance" class="result-metric">Remaining: $0.00</div>
+          <div id="total-earning" class="result-metric">Earned: $0.00</div>
+          <div id="total-spending" class="result-metric">Spent: $0.00</div>
+        </div>
+        <h2>Report</h2>
+        <ul id="spending-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    function updateMetrics() {
+      const initial = parseFloat(localStorage.getItem('initialBalance') || '0');
+      const spendings = JSON.parse(localStorage.getItem('spendings') || '[]');
+      let balance = initial, totalEarnings = 0, totalSpendings = 0;
+      spendings.forEach(e => {
+        if (e.type === 'deposit') { totalEarnings += e.amount; balance += e.amount; }
+        else { totalSpendings += e.amount; balance -= e.amount; }
+      });
+      document.getElementById('remaining-balance').textContent = `Remaining: $${balance.toFixed(2)}`;
+      document.getElementById('total-earning').textContent = `Earned: $${totalEarnings.toFixed(2)}`;
+      document.getElementById('total-spending').textContent = `Spent: $${totalSpendings.toFixed(2)}`;
+    }
+
+    // Render spending report list
+    function renderSpendingList() {
+      const list = document.getElementById('spending-list');
+      list.innerHTML = '';
+      const spendings = JSON.parse(localStorage.getItem('spendings') || '[]');
+      spendings.forEach(entry => {
+        const li = document.createElement('li');
+        const dateOnly = new Date(entry.createdAt).toLocaleDateString();
+        const amountText = entry.type === 'deposit'
+          ? `+ $${entry.amount.toFixed(2)}`
+          : `- $${entry.amount.toFixed(2)}`;
+        li.innerHTML =
+          `<span class="timestamp">${dateOnly}</span>` +
+          `<span class="amount">${amountText}</span>`;
+        list.appendChild(li);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      updateMetrics();
+      renderSpendingList();
+    });
+  </script>
+</body>
+</html>
